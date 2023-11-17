@@ -1,0 +1,12 @@
+[project]
+name = "mbds"
+version = "0.0.1"
+authors = [
+    { name="Jason Wilkes", email="notarealdeveloper@gmail.com" },
+]
+description = "Unix embedding driver for software 2.0"
+dependencies = []
+
+[project.urls]
+source = "https://github.com/notarealdeveloper/mbds"
+download = "https://pypi.org/project/mbds/#files"
