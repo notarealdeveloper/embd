@@ -1,4 +1,4 @@
-from mbd import EmbedDefault
+from embd import EmbedDefault
 
 def test_embed():
     model = EmbedDefault()

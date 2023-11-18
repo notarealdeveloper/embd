@@ -16,10 +16,10 @@ import is_instance
 import numpy as np
 import pandas as pd
 
-import mbd
+import embd
 
 def embed(o):
-    return mbd.think(o)
+    return embd.think(o)
 
 def series(o):
     if isinstance(o, pd.Series):

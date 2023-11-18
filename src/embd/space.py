@@ -13,7 +13,7 @@ __all__ = [
     'Space',
 ]
 
-from mbd import EmbedDefault
+from embd import EmbedDefault
 from mmry import CacheDefault
 
 import numpy as np

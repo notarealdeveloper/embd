@@ -1,4 +1,4 @@
-PKG = mbds
+PKG = embd
 
 build:
 	pip install build
