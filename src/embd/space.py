@@ -13,10 +13,10 @@ __all__ = [
     'Space',
 ]
 
-from embd import EmbedDefault
-from mmry import CacheDefault
-
 import numpy as np
+
+from mmry import CacheDefault
+from embd import EmbedDefault
 
 def think(arg, space=None):
     if space is None:
@@ -32,9 +32,9 @@ class Space:
 
     """ An embedding space """
 
-    def __init__(self, embed=None, cache=None):
-        self.embed = embed or EmbedDefault()
+    def __init__(self, cache=None, embed=None):
         self.cache = cache or CacheDefault()
+        self.embed = embed or EmbedDefault()
         self.cache.namespace(self.embed.namespace())
 
     def think(self, arg):

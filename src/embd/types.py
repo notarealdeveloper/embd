@@ -16,16 +16,13 @@ import is_instance
 import numpy as np
 import pandas as pd
 
-import embd
-
-def embed(o):
-    return embd.think(o)
+from . import space
 
 def series(o):
     if isinstance(o, pd.Series):
         return o
     if isinstance(o, str):
-        return pd.Series(embed(o), name=o)
+        return pd.Series(space.think(o), name=o)
     raise TypeError
 
 def frame(o):
@@ -36,9 +33,9 @@ def frame(o):
     if is_instance(o, str):
         o = [o]
     if is_instance(o, list[str]):
-        return pd.DataFrame(embed(o).T, columns=o)
+        return pd.DataFrame(space.think(o).T, columns=o)
     if is_instance(o, dict[str, str]):
-        return pd.DataFrame(embed(list(o.values())).T, columns=list(o.keys()))
+        return pd.DataFrame(space.think(list(o.values())).T, columns=list(o.keys()))
     raise TypeError(o)
 
 # ======================

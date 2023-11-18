@@ -5,7 +5,14 @@ authors = [
     { name="Jason Wilkes", email="notarealdeveloper@gmail.com" },
 ]
 description = "Unix embedding driver for software 2.0"
-dependencies = []
+dependencies = [
+    "numpy",
+    "pandas",
+    "sentence_transformers",
+    "is_instance",
+    "assure",
+    "mmry",
+]
 
 [project.urls]
 source = "https://github.com/notarealdeveloper/embd"
