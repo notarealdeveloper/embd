@@ -19,7 +19,6 @@ from mmry import Cache
 from .embed import Embed
 from .bytes import bytes_to_tensor, tensor_to_bytes
 
-@lru_cache(maxsize=1)
 def think(arg):
     space = Space.default()
     return space.think(arg)
