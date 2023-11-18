@@ -1,9 +1,8 @@
 from embd import Space
-from embd import EmbedDefault
-from mmry import CacheDefault
+from embd import Embed
 
 def test_think():
-    space = Space(embd)
+    space = Space()
     embed = think('hello world')
     assert embed.ndim == 1
     assert len(embed) == EmbedDefault.SIZES['large']

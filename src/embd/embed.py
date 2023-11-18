@@ -7,7 +7,7 @@ for the same reasons that neural networks are.
 """
 
 __all__ = [
-    'EmbedDefault',
+    'Embed',
     'EmbedFlag',
 ]
 
@@ -15,9 +15,9 @@ import os
 
 class EmbedFlag:
 
-    from functools import lru_cache
-
     SIZES = {'small': 384, 'base': 768, 'large': 1024}
+
+    from functools import lru_cache
 
     @classmethod
     @lru_cache(maxsize=1)
@@ -33,12 +33,12 @@ class EmbedFlag:
         self.normalized = normalized
         self.model_name = f"BAAI/bge-{size}-en-v1.5"
 
-    def shape(self):
-        return self.SIZES[self.size]
-
     def namespace(self):
         normalized = 'normalized' if self.normalized else 'unnormalized'
         return f"embed/flag/{self.size}/{normalized}"
+
+    def shape(self):
+        return self.SIZES[self.size]
 
     @property
     def model(self):
@@ -54,4 +54,5 @@ class EmbedFlag:
         # depending on whether or not we feed it a token length string
         return self.model.encode(text, normalize_embeddings=self.normalized)
 
-EmbedDefault = EmbedFlag
+# Default
+Embed = EmbedFlag

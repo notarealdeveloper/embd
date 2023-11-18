@@ -9,33 +9,28 @@
 
 __all__ = [
     'think',
-    'shape',
     'Space',
 ]
 
 import numpy as np
+from mmry import Cache
+from .embed import Embed
+from functools import lru_cache
 
-from mmry import CacheDefault
-from embd import EmbedDefault
-
-def think(arg, space=None):
-    if space is None:
-        space = Space()
+def think(arg):
+    space = Space.default()
     return space.think(arg)
-
-def shape(space=None):
-    if space is None:
-        space = Space()
-    return space.embed.shape()
 
 class Space:
 
     """ An embedding space """
 
-    def __init__(self, cache=None, embed=None):
-        self.cache = cache or CacheDefault()
-        self.embed = embed or EmbedDefault()
-        self.cache.namespace(self.embed.namespace())
+    def __init__(self, embed=None):
+        self.embed = embed or Embed()
+        self.name = self.embed.namespace()
+        self.cache = Cache(self.name)
+        assert self.name == self.cache.namespace()
+        assert self.name == self.embed.namespace()
 
     def think(self, arg):
         if isinstance(arg, (str, bytes)):
@@ -84,3 +79,12 @@ class Space:
     def load(self, blob):
         bytes = self.cache.load(blob)
         return wnix.bytes_to_tensor(bytes)
+
+    @classmethod
+    def default(cls):
+        try:
+            return cls._default
+        except:
+            cls._default = cls()
+            return cls._default
+
