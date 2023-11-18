@@ -13,10 +13,13 @@ __all__ = [
 ]
 
 import numpy as np
-from mmry import Cache
-from .embed import Embed
 from functools import lru_cache
 
+from mmry import Cache
+from .embed import Embed
+from .bytes import bytes_to_tensor, tensor_to_bytes
+
+@lru_cache(maxsize=1)
 def think(arg):
     space = Space.default()
     return space.think(arg)
@@ -73,12 +76,12 @@ class Space:
             return embed
 
     def save(self, blob, embed):
-        bytes = wnix.tensor_to_bytes(embed)
+        bytes = tensor_to_bytes(embed)
         self.cache.save(blob, bytes)
 
     def load(self, blob):
         bytes = self.cache.load(blob)
-        return wnix.bytes_to_tensor(bytes)
+        return bytes_to_tensor(bytes)
 
     @classmethod
     def default(cls):
