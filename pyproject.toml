@@ -17,3 +17,6 @@ dependencies = [
 [project.urls]
 source = "https://github.com/notarealdeveloper/embd"
 download = "https://pypi.org/project/embd/#files"
+
+[project.scripts]
+think = "embd.bin.think:main"
