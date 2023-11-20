@@ -1,13 +1,11 @@
 [project]
 name = "embd"
-version = "0.0.2"
+version = "0.0.3"
 authors = [
     { name="Jason Wilkes", email="notarealdeveloper@gmail.com" },
 ]
 description = "Unix embedding driver for software 2.0"
 dependencies = [
-    "numpy",
-    "pandas",
     "sentence_transformers",
     "is_instance",
     "assure",
