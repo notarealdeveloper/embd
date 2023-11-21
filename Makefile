@@ -13,9 +13,6 @@ develop:
 check:
 	pytest -v tests
 
-check-shell:
-	tests/test_wnix.sh
-
 uninstall:
 	pip uninstall $(PKG)
 
