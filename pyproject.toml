@@ -6,6 +6,7 @@ authors = [
 ]
 description = "Unix embedding driver for software 2.0"
 dependencies = [
+    "pytest",
     "sentence_transformers",
     "is_instance",
     "assure",
