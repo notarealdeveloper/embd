@@ -43,7 +43,8 @@ def main(argv=None):
     if os.isatty(sys.stdout.fileno()):
         print(tensor)
     else:
-        sys.stdout.buffer.write(embd.tensor_to_bytes(output))
+        bytes = embd.tensor_to_bytes(tensor)
+        sys.stdout.buffer.write(bytes)
 
 if __name__ == '__main__':
     main(sys.argv[1:])

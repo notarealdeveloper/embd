@@ -7,9 +7,12 @@ __all__ = [
     'promote',
 ]
 
+import is_instance
+
 # ======================
 
 def promote(o):
+    import numpy as np
     if isinstance(o, (list, tuple, set)):
         return List(o)
     elif isinstance(o, dict):
@@ -20,12 +23,14 @@ def promote(o):
         return List([o.decode()])
     elif isinstance(o, (List, Dict)):
         return o
+    elif isinstance(o, np.ndarray) and o.ndim == 2:
+        return List(o)
+    elif isinstance(o, np.ndarray) and o.ndim == 1:
+        return List([o])
     else:
         raise TypeError(o)
 
 # ======================
-
-import is_instance
 
 def series(o, space=None):
     import pandas as pd
