@@ -23,6 +23,8 @@ def promote(o):
         return List([o.decode()])
     elif isinstance(o, (List, Dict)):
         return o
+    elif isinstance(o, F):
+        return o
     elif isinstance(o, np.ndarray) and o.ndim == 2:
         return List(o)
     elif isinstance(o, np.ndarray) and o.ndim == 1:
@@ -166,6 +168,14 @@ class F(O):
 
     def __sub__(self, other):
         return self.f - other.f
+
+    def get(self, other):
+        import numpy as np
+        s = self @ promote(other)
+        i = np.argsort(-s)
+        s.iloc[:, :] = s.columns.values[i]
+        s.columns = list(range(1, len(s.columns)+1))
+        return s[1].tolist()
 
 class S(O):
     def __init__(self, o):
