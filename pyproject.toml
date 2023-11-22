@@ -8,7 +8,7 @@ description = "Unix embedding driver for software 2.0"
 dependencies = [
     "pytest",
     "sentence_transformers",
-    "is_instance",
+    "is_instance >= 0.0.5",
     "assure",
     "mmry >= 0.0.4",
 ]
