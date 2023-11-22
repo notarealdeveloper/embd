@@ -46,9 +46,14 @@ class Space:
             return dict(zip(keys, embs))
         raise TypeError(f"Can't think about {arg.__class__.__name__}: {arg!r}")
 
+    def __call__(self, arg):
+        return self.think(arg)
+
     def gets(self, blobs):
         """ Not currently used, but keep this around in case
-            we want to enable it for speeding up the GPU case. """
+            we want to enable it for speeding up the GPU case.
+            In all current uses it seemed to slow things down.
+        """
         raise NotImplementedError("Don't use this yet")
         embeds = {}
         todos = {}
@@ -76,10 +81,10 @@ class Space:
 
     def save(self, blob, embed):
         bytes = tensor_to_bytes(embed)
-        self.cache.save(blob, bytes)
+        self.cache.save_blob(blob, bytes)
 
     def load(self, blob):
-        bytes = self.cache.load(blob)
+        bytes = self.cache.load_blob(blob)
         return bytes_to_tensor(bytes)
 
     @classmethod

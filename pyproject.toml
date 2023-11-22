@@ -10,7 +10,7 @@ dependencies = [
     "sentence_transformers",
     "is_instance",
     "assure",
-    "mmry",
+    "mmry >= 0.0.3",
 ]
 
 [project.urls]
