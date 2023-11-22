@@ -175,6 +175,10 @@ class F(O):
         i = np.argsort(-s)
         s.iloc[:, :] = s.columns.values[i]
         s.columns = list(range(1, len(s.columns)+1))
+        return s
+
+    def top(self, other, n=1):
+        s = self.get(other)
         return s[1].tolist()
 
 class S(O):

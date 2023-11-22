@@ -30,10 +30,10 @@ def test_list():
     Colors  = List(colors)
     Animals = List(animals)
 
-    assert Things.get(Colors) == colors
-    assert Things.get(Animals) == animals
-    assert Things.get(colors) == colors
-    assert Things.get(animals) == animals
-    assert List(things[::-1]).get(colors) == colors[::-1]
-    assert List(things[::-1]).get(animals) == animals[::-1]
+    assert Things.top(Colors) == colors
+    assert Things.top(Animals) == animals
+    assert Things.top(colors) == colors
+    assert Things.top(animals) == animals
+    assert List(things[::-1]).top(colors) == colors[::-1]
+    assert List(things[::-1]).top(animals) == animals[::-1]
 
