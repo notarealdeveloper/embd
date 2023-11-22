@@ -1,6 +1,6 @@
 [project]
 name = "embd"
-version = "0.0.6"
+version = "0.0.7"
 authors = [
     { name="Jason Wilkes", email="notarealdeveloper@gmail.com" },
 ]
@@ -10,7 +10,7 @@ dependencies = [
     "sentence_transformers",
     "is_instance",
     "assure",
-    "mmry >= 0.0.3",
+    "mmry >= 0.0.4",
 ]
 
 [project.urls]
