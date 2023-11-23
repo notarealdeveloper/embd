@@ -1,17 +1,21 @@
 
 def test_space():
-    from embd import Space, Embed
+    from embd import Space, EmbedFlag, EmbedMpnet
 
-    space = Space(Embed('small'))
+    space = Space(EmbedFlag('small'))
     embed = space.think('hello world')
     assert embed.ndim == 1
-    assert len(embed) == Embed.SIZES['small']
+    assert len(embed) == EmbedFlag.SIZES['small']
 
-    space = Space(Embed('large'))
+    space = Space(EmbedFlag('large'))
     embed = space.think('hello world')
     assert embed.ndim == 1
-    assert len(embed) == Embed.SIZES['large']
+    assert len(embed) == EmbedFlag.SIZES['large']
 
+    space = Space(EmbedMpnet('base'))
+    embed = space.think('hello world')
+    assert embed.ndim == 1
+    assert len(embed) == EmbedMpnet.SIZES['base']
 
 def test_list():
 
