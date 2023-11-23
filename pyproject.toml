@@ -1,6 +1,6 @@
 [project]
 name = "embd"
-version = "0.0.8"
+version = "0.0.9"
 authors = [
     { name="Jason Wilkes", email="notarealdeveloper@gmail.com" },
 ]
