@@ -144,7 +144,7 @@ class Space:
         except:
             blob = open(path).read()
             embed = self.get_from_blob(blob)
-            embd.save_name(name, blob)
+            self.save_name(name, blob)
         return embed
 
     def get_from_name_and_blob(self, name, blob):
@@ -153,7 +153,7 @@ class Space:
             return self.load_name(name)
         except:
             embed = self.get_from_blob(blob)
-            embd.save_name(name, blob)
+            self.save_name(name, blob)
         return embed
 
     @classmethod
