@@ -19,9 +19,9 @@ from mmry import Cache
 from .embed import Embed
 from .bytes import bytes_to_tensor, tensor_to_bytes
 
-def think(arg):
+def think(text, *, name=None):
     space = Space.default()
-    return space.think(arg)
+    return space.think(text, name=name)
 
 class Space:
 
@@ -34,58 +34,63 @@ class Space:
         assert self.name == self.cache.namespace()
         assert self.name == self.embed.namespace()
 
-    def think(self, arg):
+    def think(self, arg, *, name=None):
         if isinstance(arg, (str, bytes)):
-            return self.get(arg)
+            return self.load_or_create(arg, name=name)
+
+        # no support at present for loading collections by name
+        assert name is None
+
         if isinstance(arg, (list, tuple, set)):
-            return np.stack([self.get(a) for a in arg])
+            return np.stack([self.think(text) for text in arg])
+
         if isinstance(arg, dict):
             keys = arg.keys()
             vals = arg.values()
-            embs = [self.get(val) for val in vals]
+            embs = [self.think(val) for val in vals]
             return dict(zip(keys, embs))
+
         raise TypeError(f"Can't think about {arg.__class__.__name__}: {arg!r}")
 
-    def __call__(self, arg):
-        return self.think(arg)
+    def __call__(self, text, *, name=None):
+        return self.think(text, name=name)
 
-    def gets(self, blobs):
-        """ Not currently used, but keep this around in case
-            we want to enable it for speeding up the GPU case.
-            In all current uses it seemed to slow things down.
-        """
-        raise NotImplementedError("Don't use this yet")
-        embeds = {}
-        todos = {}
-        for n, blob in enumerate(blobs):
-            try:
-                embeds[n] = self.load(blob)
-            except:
-                todos[n] = blob
-        ns = list(todos.keys())
-        bs = list(todos.values())
-        es = self.embed(bs)
-        for n, b, e in zip(ns, bs, es):
-            embeds[n] = e
-            self.save(b, e)
-        return np.stack([e for n,e in sorted(embeds.items())])
+    def load_or_create(self, blob, *, name=None):
+        if name is not None:
+            return self.load_or_create_name(blob, name)
+        else:
+            return self.load_or_create_blob(blob)
 
-    def get(self, blob):
+    def load_or_create_blob(self, blob):
         try:
-            embed = self.load(blob)
-            return embed
+            return self.load_blob(blob)
         except:
             embed = self.embed(blob)
-            self.save(blob, embed)
+            self.save_blob(blob, embed)
             return embed
 
-    def save(self, blob, embed):
+    def load_or_create_name(self, blob, name):
+        try:
+            return self.load_name(name)
+        except:
+            embed = self.load_or_create_blob(blob)
+            self.save_name(name, blob)
+            return embed
+
+    def save_blob(self, blob, embed):
         bytes = tensor_to_bytes(embed)
         self.cache.save_blob(blob, bytes)
 
-    def load(self, blob):
+    def load_blob(self, blob):
         bytes = self.cache.load_blob(blob)
         return bytes_to_tensor(bytes)
+
+    def save_name(self, name, blob):
+        try: return self.cache.save_name(name, blob)
+        except FileExistsError: pass
+
+    def load_name(self, name):
+        return self.cache.load_name(name)
 
     @classmethod
     def default(cls):
@@ -94,4 +99,3 @@ class Space:
         except:
             cls._default = cls()
             return cls._default
-
