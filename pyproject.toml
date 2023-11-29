@@ -1,6 +1,6 @@
 [project]
 name = "embd"
-version = "0.0.9"
+version = "0.1.0"
 authors = [
     { name="Jason Wilkes", email="notarealdeveloper@gmail.com" },
 ]
@@ -9,7 +9,7 @@ dependencies = [
     "pytest",
     "sentence_transformers",
     "is_instance >= 0.0.5",
-    "assure",
+    "assure >= 0.0.5",
     "mmry >= 0.0.5",
 ]
 
