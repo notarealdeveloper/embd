@@ -15,7 +15,18 @@ def main(argv=None):
     parser.add_argument('file', nargs='?')
     parser.add_argument('-l', '--lines', action='store_true')
     parser.add_argument('-c', '--cat', action='store_true')
+    parser.add_argument('-A', '--after', type=int, default=0)
+    parser.add_argument('-B', '--before', type=int, default=0)
+    parser.add_argument('-C', '--context', type=int, default=0)
     args = parser.parse_args(argv)
+
+    before = after = 0
+    if args.context:
+        before = after = args.context
+    if args.before:
+        before = args.before
+    if args.after:
+        after = args.after
 
     if not args.file:
         input = sys.stdin.read()
@@ -33,7 +44,11 @@ def main(argv=None):
     space = embd.Space()
 
     outputs = []
-    for text in texts:
+    for n in range(len(texts)):
+        window = texts[n-before:n+after+1]
+        if len(window) == 0:
+            raise RuntimeError(f"Bug for line n = {n} with context before={before}, after={after}")
+        text = '\n'.join(window)
         output = space.think(text)
         outputs.append(output)
 
