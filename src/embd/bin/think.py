@@ -28,6 +28,10 @@ def main(argv=None):
     if args.after:
         after = args.after
 
+    if before > 0 or after > 0:
+        # context arguments imply windowed embeddings, so turn on -l
+        args.lines = True
+
     if not args.file:
         input = sys.stdin.read()
     else:
