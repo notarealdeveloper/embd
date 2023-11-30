@@ -51,7 +51,7 @@ def main(argv=None):
     for n in range(len(texts)):
         window = texts[n-before:n+after+1]
         if len(window) == 0:
-            raise RuntimeError(f"Bug for line n = {n} with context before={before}, after={after}")
+            continue
         text = '\n'.join(window)
         output = space.think(text)
         outputs.append(output)
