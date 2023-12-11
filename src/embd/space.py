@@ -25,7 +25,7 @@ import numpy as np
 from functools import lru_cache
 
 from mmry import Cache
-from .embed import Embed
+from .embed import Embed, get_default_model
 from .bytes import bytes_to_tensor, tensor_to_bytes
 
 def think(text):
@@ -157,9 +157,5 @@ class Space:
         return embed
 
     @classmethod
-    def default(cls):
-        try:
-            return cls._default
-        except:
-            cls._default = cls()
-            return cls._default
+    def default(cls, *args, **kwds):
+        return get_default_model(*args, **kwds)

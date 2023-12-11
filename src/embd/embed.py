@@ -162,4 +162,8 @@ def get_default_model():
     return config['default']
 
 # Default
-Embed = EmbedFlag
+class Embed(EmbedBase):
+    def __new__(cls, *args, **kwds):
+        cls2 = get_default_model()
+        self = cls2(*args, **kwds)
+        return self
