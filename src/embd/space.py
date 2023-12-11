@@ -158,5 +158,5 @@ class Space:
 
     @classmethod
     def default(cls, *args, **kwds):
-        cls2 = get_default_model()
-        return cls2(*args, **kwds)
+        Embed = get_default_model()
+        return cls(Embed(*args, **kwds))
