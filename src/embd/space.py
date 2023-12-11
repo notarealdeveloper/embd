@@ -158,4 +158,5 @@ class Space:
 
     @classmethod
     def default(cls, *args, **kwds):
-        return get_default_model(*args, **kwds)
+        cls2 = get_default_model()
+        return cls2(*args, **kwds)
