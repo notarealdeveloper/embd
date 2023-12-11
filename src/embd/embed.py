@@ -13,6 +13,9 @@ __all__ = [
     'EmbedMinilm',
     'EmbedGtrT5',
     'EmbedSentenceT5',
+    'list_models',
+    'get_default_model',
+    'set_default_model',
 ]
 
 class EmbedBase:
@@ -135,9 +138,28 @@ class EmbedSentenceT5(EmbedBase):
 
     def __call__(self, text):
         return self.model.encode(text)
+
+
+models = {
+    'flag': EmbedFlag,
+    'mpnet': EmbedMpnet,
+    'minilm': EmbedMinilm,
+    'gtr-t5': EmbedGtrT5,
+    'sentence-t5': EmbedSentenceT5,
+}
+
+config = {
+    'default': EmbedFlag,
+}
+
+def list_models():
+    return list(models.keys())
+
+def set_default_model(name):
+    config['default'] = models[name]
+
+def get_default_model():
+    return config['default']
+
 # Default
 Embed = EmbedFlag
-#Embed = EmbedMpnet
-#Embed = EmbedMinilm
-#Embed = EmbedGtrT5
-#Embed = EmbedSentenceT5
