@@ -13,6 +13,8 @@ __all__ = [
     'EmbedMinilm',
     'EmbedGtrT5',
     'EmbedSentenceT5',
+    'EmbedFlagLLMEmbedder',
+    'EmbedFlagReranker',
     'list_models',
     'get_default_model',
     'set_default_model',
@@ -58,6 +60,49 @@ class EmbedFlag(EmbedBase):
 
     def __call__(self, text):
         return self.model.encode(text, normalize_embeddings=self.normalized)
+
+
+class EmbedFlagLLMEmbedder(EmbedBase):
+
+    """ paper: Retrieve Anything To Augment Large Language Models
+        url: https://arxiv.org/abs/2310.07554
+    """
+    def __init__(self, normalized=True):
+        self.normalized = normalized
+        self.model_name = f"BAAI/llm-embedder"
+
+    def namespace(self):
+        normalized = 'normalized' if self.normalized else 'unnormalized'
+        return f"embed/flag-llm-embedder/{normalized}"
+
+    def shape(self):
+        return 768
+
+    def __call__(self, text):
+        return self.model.encode(text)
+
+
+class EmbedFlagReranker(EmbedBase):
+
+    SIZES = {'base': 768, 'large': 1024}
+
+    def __init__(self, size='large', normalized=True):
+        if size not in self.SIZES:
+            raise ValueError(f"size must be one of: {self.SIZES}")
+        self.size = size
+        self.normalized = normalized
+        self.model_name = f"BAAI/bge-reranker-{size}"
+
+    def namespace(self):
+        normalized = 'normalized' if self.normalized else 'unnormalized'
+        return f"embed/flag-reranker/{self.size}/{normalized}"
+
+    def shape(self):
+        return 'Unknown'
+
+    def __call__(self, text):
+        return self.model.encode(text)
+
 
 
 class EmbedMpnet(EmbedBase):
@@ -146,6 +191,8 @@ models = {
     'minilm': EmbedMinilm,
     'gtr-t5': EmbedGtrT5,
     'sentence-t5': EmbedSentenceT5,
+    'flag-llm-embedder': EmbedFlagLLMEmbedder,
+    'flag-reranker': EmbedFlagReranker,
 }
 
 config = {
