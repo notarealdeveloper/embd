@@ -3,7 +3,7 @@ PKG = embd
 build: build-deps
 	python -m build
 
-install: build
+install:
 	pip install dist/*.tar.gz
 
 develop:
