@@ -64,10 +64,11 @@ class Space:
         An embedding space
     """
 
-    def __init__(self, embed=None):
+    def __init__(self, embed=None, cache=None):
         self.embed = embed or Embed()
+        self.cache = cache or Cache()
         self.name = self.embed.namespace()
-        self.cache = Cache(self.name)
+        self.cache.name = self.name
         assert self.name == self.cache.namespace()
         assert self.name == self.embed.namespace()
 
