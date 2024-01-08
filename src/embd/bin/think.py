@@ -49,7 +49,9 @@ def main(argv=None):
 
     outputs = []
     for n in range(len(texts)):
-        window = texts[n-before:n+after+1]
+        start = max(0, n-before)
+        end   = n+after+1
+        window = texts[start:end]
         if len(window) == 0:
             continue
         text = '\n'.join(window)
