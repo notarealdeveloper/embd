@@ -173,6 +173,7 @@ class F(O):
         import numpy as np
         s = self @ promote(other)
         i = np.argsort(-s)
+        s = s.astype(object)
         s.iloc[:, :] = s.columns.values[i]
         s.columns = list(range(1, len(s.columns)+1))
         return s
