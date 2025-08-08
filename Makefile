@@ -19,12 +19,14 @@ clean:
 	rm -rvf dist/ build/ src/*.egg-info
 
 push-test:
+	python -m pip install twine
 	python -m twine upload --repository testpypi dist/*
 
 pull-test:
 	pip install -i https://test.pypi.org/simple/ $(PKG)
 
 push-prod:
+	python -m pip install twine
 	python -m twine upload dist/*
 
 pull-prod:
