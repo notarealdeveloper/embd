@@ -1,36 +1,38 @@
 PKG = embd
+PYTHON ?= python
+PIP ?= pip
 
 build: build-deps
-	python -m build
+	$(PYTHON) -m build
 
 install:
-	pip install dist/*.tar.gz
+	$(PYTHON) -m $(PIP) install dist/*.tar.gz
 
 develop:
-	pip install -e .
+	$(PYTHON) -m $(PIP) install -e .
 
 check:
 	pytest -v tests
 
 uninstall:
-	pip uninstall $(PKG)
+	$(PYTHON) -m $(PIP) uninstall $(PKG)
 
 clean:
 	rm -rvf dist/ build/ src/*.egg-info
 
 push-test:
-	python -m pip install twine
-	python -m twine upload --repository testpypi dist/*
+	$(PYTHON) -m $(PIP) install twine
+	$(PYTHON) -m twine upload --repository testpypi dist/*
 
 pull-test:
-	pip install -i https://test.pypi.org/simple/ $(PKG)
+	$(PYTHON) -m $(PIP) install -i https://test.pypi.org/simple/ $(PKG)
 
 push-prod:
-	python -m pip install twine
-	python -m twine upload dist/*
+	$(PYTHON) -m $(PIP) install twine
+	$(PYTHON) -m twine upload dist/*
 
 pull-prod:
-	pip install $(PKG)
+	$(PYTHON) -m $(PIP) install $(PKG)
 
 build-deps:
-	@python -c 'import build' &>/dev/null || pip install build
+	@$(PYTHON) -c 'import build' &>/dev/null || $(PYTHON) -m $(PIP) install build
