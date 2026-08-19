@@ -1,6 +1,7 @@
 PKG = embd
 PYTHON ?= python
 PIP ?= pip
+PYTEST ?= $(PYTHON) -m pytest
 
 build: build-deps
 	$(PYTHON) -m build
@@ -12,7 +13,7 @@ develop:
 	$(PYTHON) -m $(PIP) install -e .
 
 check:
-	pytest -v tests
+	$(PYTEST) -v tests
 
 uninstall:
 	$(PYTHON) -m $(PIP) uninstall $(PKG)
